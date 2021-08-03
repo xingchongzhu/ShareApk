@@ -4,11 +4,15 @@ import android.content.pm.LauncherActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.apkshare.adapter.RecyclerAdapter
 import com.dev.apkshare.apphelper.PackageManagerHelper
 import com.dev.apkshare.utils.CommonUtils.APP_ITEM_MAX_COLUMNS
+import com.dev.apkshare.utils.FileUtils
+import com.dev.apkshare.utils.FileUtils.Companion.getExternalApkPath
+import com.dev.apkshare.utils.FileUtils.Companion.openFileManagerByPath
 import com.royole.globalsearch.convert.AppItemBeanConvert.launcherActivityInfoToAppItemBean
 
 /**
@@ -23,6 +27,7 @@ class ShareActivity : BaseActivity() {
     lateinit var mPackageManagerHelper : PackageManagerHelper
     lateinit var mRecyclerView : RecyclerView
     lateinit var mRecyclerAdapter : RecyclerAdapter
+    lateinit var mTextTitle : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +42,11 @@ class ShareActivity : BaseActivity() {
 
     override fun initView() {
         mRecyclerView = findViewById(R.id.recyclerview)
+        mTextTitle = findViewById(R.id.path)
     }
 
     override fun initData() {
+        FileUtils.setRootDir(this)
         mPackageManagerHelper = PackageManagerHelper(this)
         val list = mPackageManagerHelper.getAllApps()
         val appList = launcherActivityInfoToAppItemBean(this,list)
@@ -50,6 +57,12 @@ class ShareActivity : BaseActivity() {
 
         mRecyclerAdapter = RecyclerAdapter(this,appList)
         mRecyclerView.adapter = mRecyclerAdapter
+
+        mTextTitle.setText(String.format(resources.getString(R.string.save_path_dir),getExternalApkPath()));
+
+        mTextTitle.setOnClickListener {
+            openFileManagerByPath(this@ShareActivity,getExternalApkPath())
+        }
     }
 
     inner class GridSpanSizer : GridLayoutManager.SpanSizeLookup() {

@@ -29,6 +29,8 @@ open abstract class BaseActivity : AppCompatActivity(){
     private var mDialog: AlertDialog? = null
     private val NOT_NOTICE = 2
 
+    val requetPermissionList = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE);
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -57,8 +59,14 @@ open abstract class BaseActivity : AppCompatActivity(){
     }
 
     private fun myRequetPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        var mutableMap : MutableList<String> = mutableListOf<String>()
+        requetPermissionList.forEach {
+            if (ContextCompat.checkSelfPermission(this, it) != PERMISSION_GRANTED){
+                mutableMap.add(it)
+            }
+        }
+        if(mutableMap.size > 0){
+            ActivityCompat.requestPermissions(this, mutableMap.toTypedArray(), 1)
         }
     }
 

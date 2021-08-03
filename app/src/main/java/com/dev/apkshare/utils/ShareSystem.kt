@@ -114,7 +114,7 @@ class ShareSystem private constructor(builder: Builder) {
         var shareIntent: Intent? = Intent()
         shareIntent!!.action = Intent.ACTION_SEND
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        shareIntent.addCategory("android.intent.category.DEFAULT")
+        //shareIntent.addCategory(Intent.CATEGORY_DEFAULT)
 
         if (!TextUtils.isEmpty(this.componentPackageName) && !TextUtils.isEmpty(componentClassName)) {
             val comp = ComponentName(componentPackageName!!, componentClassName!!)
@@ -124,15 +124,15 @@ class ShareSystem private constructor(builder: Builder) {
         when (contentType) {
             ShareContentType.TEXT -> {
                 shareIntent.putExtra(Intent.EXTRA_TEXT, contentText)
-                shareIntent.type = "text/plain"
+                shareIntent.type = ShareContentType.TEXT
             }
-            ShareContentType.IMAGE, ShareContentType.AUDIO, ShareContentType.VIDEO, ShareContentType.FILE -> {
-                shareIntent.action = Intent.ACTION_SEND
-                shareIntent.addCategory("android.intent.category.DEFAULT")
+            ShareContentType.IMAGE, ShareContentType.AUDIO, ShareContentType.VIDEO, ShareContentType.FILE ,ShareContentType.FOLDER-> {
+                if(ShareContentType.FOLDER == contentType){
+                    shareIntent.action = Intent.ACTION_GET_CONTENT
+                    shareIntent.addCategory(Intent.CATEGORY_OPENABLE)
+                }
                 shareIntent.type = contentType
                 shareIntent.putExtra(Intent.EXTRA_STREAM, shareFileUri)
-                shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 Log.d(TAG, "Share uri: " + shareFileUri!!.toString()+" VERSION = "+Build.VERSION.SDK_INT+" forcedUseSystemChooser = "+forcedUseSystemChooser)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     val resInfoList = activity!!.packageManager.queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY)
@@ -313,6 +313,11 @@ class ShareSystem private constructor(builder: Builder) {
              * Share File
              */
             val FILE = "*/*"
+
+            /**
+             * Share File
+             */
+            val FOLDER = "file/*"
         }
     }
 }
