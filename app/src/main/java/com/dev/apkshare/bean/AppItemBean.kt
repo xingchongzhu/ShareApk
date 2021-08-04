@@ -30,8 +30,8 @@ import java.io.File
  * @description app搜索项
  */
 class AppItemBean(var appLable: String? = null,var appIcon: Drawable,var apkSrc : String,
-                  var componentName: ComponentName? = null,var userHandle: UserHandle? = null) : BindingAdapterItem() ,View.OnLongClickListener,View.OnClickListener{
-
+                  var componentName: ComponentName? = null,var userHandle: UserHandle? = null) :
+        BindingAdapterItem() ,View.OnLongClickListener,View.OnClickListener,Comparable<AppItemBean>{
 
     val TAG = javaClass.simpleName
     var mActivity : Activity? = null
@@ -104,5 +104,9 @@ class AppItemBean(var appLable: String? = null,var appIcon: Drawable,var apkSrc 
     override fun toString(): String {
         //return "appLable : $appLable componentName : $componentName appIcon $appIcon"
         return "appLable : $appLable user $userHandle"
+    }
+
+    override fun compareTo(other: AppItemBean): Int {
+        return other.appLable?.compareTo(appLable!!)!!
     }
 }

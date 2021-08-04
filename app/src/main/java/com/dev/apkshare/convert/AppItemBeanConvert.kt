@@ -20,7 +20,7 @@ object AppItemBeanConvert : Convert<LauncherActivityInfo, AppItemBean> {
         val convertFactory = ConvertFactory<LauncherActivityInfo, AppItemBean>()
         val result = ArrayList<BindingAdapterItem>()
         list.forEach {
-            result.add(convertFactory.produce(context, it, AppItemBeanConvert))
+            result.add(convertFactory.produce(context, it, this))
         }
         return result
     }

@@ -3,6 +3,22 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        Debug {
+            keyAlias 'royole'
+            keyPassword 'royole_platform'
+            storeFile file('Royole_platform.jks')
+            storePassword 'royole_platform'
+        }
+
+        Release {
+            keyAlias 'royole'
+            keyPassword 'royole_platform'
+            storeFile file('Royole_platform.jks')
+            storePassword 'royole_platform'
+
+        }
+    }
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.dev.apkshare"

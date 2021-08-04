@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.apkshare.adapter.RecyclerAdapter
 import com.dev.apkshare.apphelper.PackageManagerHelper
+import com.dev.apkshare.convert.PackageInfoConvert
 import com.dev.apkshare.utils.CommonUtils.APP_ITEM_MAX_COLUMNS
 import com.dev.apkshare.utils.FileUtils
 import com.dev.apkshare.utils.FileUtils.Companion.getExternalApkPath
@@ -48,8 +49,8 @@ class ShareActivity : BaseActivity() {
     override fun initData() {
         FileUtils.setRootDir(this)
         mPackageManagerHelper = PackageManagerHelper(this)
-        val list = mPackageManagerHelper.getAllApps()
-        val appList = launcherActivityInfoToAppItemBean(this,list)
+        val list = mPackageManagerHelper.getAllAppsPackageInfo()
+        val appList = PackageInfoConvert.launcherActivityInfoToAppItemBean(this,list)
         Log.d(TAG,"list ${list.size}")
         val layoutManager = GridLayoutManager(this, APP_ITEM_MAX_COLUMNS, GridLayoutManager.VERTICAL, false)
         mRecyclerView?.layoutManager = layoutManager

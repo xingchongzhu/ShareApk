@@ -10,6 +10,10 @@ import com.royole.globalsearch.compat.LauncherAppsCompat
 import com.royole.globalsearch.convert.AppItemBeanConvert
 import com.royole.globalsearch.factory.ConvertFactory
 import java.util.*
+import android.content.pm.PackageInfo
+import android.os.Process
+import android.util.Log
+
 
 /**
  * @author: ${zhuxingchong}
@@ -36,6 +40,20 @@ class PackageManagerHelper {
         for (userHandle in userHandles) {
             mLauncherAppsCompat?.getActivityList(null, userHandle)?.let { allApps.addAll(it) }
         }
+
+        val packages = mPm.getInstalledPackages(0)
         return allApps
+    }
+
+    fun getAllAppsPackageInfo(): MutableList<PackageInfo> {
+        val packages = mPm.getInstalledPackages(0)
+        packages.forEach {
+            val matches = mLauncherAppsCompat?.getActivityList(it.packageName, Process.myUserHandle())
+            if(matches != null && matches.size > 0){
+                it.applicationInfo.className = matches[0].componentName.className
+            }
+        }
+
+        return packages
     }
 }
