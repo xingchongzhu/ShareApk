@@ -34,6 +34,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
 }
 
 dependencies {
@@ -41,6 +44,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'

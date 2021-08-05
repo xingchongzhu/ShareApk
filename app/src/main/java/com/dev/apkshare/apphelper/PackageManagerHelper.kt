@@ -40,8 +40,6 @@ class PackageManagerHelper {
         for (userHandle in userHandles) {
             mLauncherAppsCompat?.getActivityList(null, userHandle)?.let { allApps.addAll(it) }
         }
-
-        val packages = mPm.getInstalledPackages(0)
         return allApps
     }
 

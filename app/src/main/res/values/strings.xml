@@ -5,5 +5,7 @@
     <string name="share_label" >"分享"</string>
     <string name="save_sucess" >"保存成功"</string>
     <string name="save_fail" >"保存失败"</string>
+    <string name="system_app" >"系统应用"</string>
+    <string name="normal_app" >"常用应用"</string>
     <string name="long_click_dialog_message" >"可以通过蓝牙等方式发送给其他手机使用"</string>
 </resources>
